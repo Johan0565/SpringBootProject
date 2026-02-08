@@ -1,16 +1,16 @@
 package com.example.reservation_system;
 
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
+@RequestMapping("/reservation")
 public class ReservationController {
-    private static final Logger log = (Logger) LoggerFactory.getLogger(ReservationController.class);
 
     private final ReservationService reservationService;
 
@@ -18,15 +18,23 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @GetMapping("/{id}")
-    public Reservation getReservationById(
+    @GetMapping("/reservation/{id}")
+    public ResponseEntity<Reservation> getReservationById(
             @PathVariable("id") Long id
     ) {
-        log.info("Called getResByID: id: " + id);
-        return reservationService.getReservationById(id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(reservationService.getReservationById(id));
     }
-    @GetMapping
-    public List<Reservation> getAllReservations() {
-        return reservationService.findAllReservations();
+    @GetMapping("/reservation")
+    public ResponseEntity<List<Reservation>> getAllReservations() {
+        return ResponseEntity.ok(reservationService.findAllReservations());
+    }
+    @PostMapping("/reservation")
+    public ResponseEntity<Reservation> createReservation(
+            @RequestBody Reservation reservationToCreate)
+    {
+        return ResponseEntity.status(201).header("test-header","123").body(reservationService.createReservation(reservationToCreate));
+
     }
 }

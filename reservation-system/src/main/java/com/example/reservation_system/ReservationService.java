@@ -20,9 +20,8 @@ public class ReservationService {
     }
 
     public Reservation getReservationById(
-            Long id
-    ) {
-        if (!reservationMap.containsKey(id)){
+            Long id) {
+        if (!reservationMap.containsKey(id)) {
             throw new NoSuchElementException("Not found reservation by ID");
         }
         return reservationMap.get(id);
@@ -34,11 +33,11 @@ public class ReservationService {
 
     public Reservation createReservation(Reservation reservationToCreate) {
 
-        if (reservationToCreate.id()!=null){
+        if (reservationToCreate.id() != null) {
             throw new IllegalArgumentException("Id should be empty");
         }
 
-        if (reservationToCreate.status()!=null){
+        if (reservationToCreate.status() != null) {
             throw new IllegalArgumentException("Status should be empty");
         }
 
@@ -48,11 +47,9 @@ public class ReservationService {
                 reservationToCreate.roomId(),
                 reservationToCreate.startDate(),
                 reservationToCreate.endDate(),
-                ReservationStatus.PENDING
-        );
-        reservationMap.put(reservationToCreate.id(), newReservation);
+                ReservationStatus.PENDING);
+        reservationMap.put(newReservation.id(), newReservation);
 
         return newReservation;
     }
 }
-

@@ -27,5 +27,9 @@ public class UserController {
         return userService.AddUser(user);
     }
 
-    //48 min 
+    //48 min
+    @DeleteMapping(path = "{id}")
+    public void DeleteUser(@PathVariable Long id) {
+        userService.DeleteUser(id);
+    }
 }

@@ -33,4 +33,13 @@ public class UserService {
         user.setAge(Period.between(user.getBirth(), LocalDate.now()).getYears());
         return userRepository.save(user);
     }
+
+    public void DeleteUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("User with id " + id + " does not exist");
+        }
+        userRepository.deleteById(id);
+
+    }
 }
